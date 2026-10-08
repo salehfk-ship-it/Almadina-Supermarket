@@ -1,2 +1,5 @@
 // ضع بيانات مشروع Supabase هنا (Settings > API). اتركها فارغة لتشغيل النسخة التجريبية.
-window.MD={SUPABASE_URL:"https://vbyxklzbudlcxdzumewx.supabase.co",SUPABASE_ANON_KEY:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZieXhrbHpidWRsY3hkenVtZXd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE0NjY2MTcsImV4cCI6MjEwNzA0MjYxN30.EpgHVgLz6OyhUte8LBGIOh-relloMR6ULoxrY-qxBjo"};
+window.MD={
+  SUPABASE_URL:"https://vbyxklzbudlcxdzumewx.supabase.co",
+  SUPABASE_ANON_KEY:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZieXhrbHpidWRsY3hkenVtZXd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE0NjY2MTcsImV4cCI6MjEwNzA0MjYxN30.EpgHVgLz6OyhUte8LBGIOh-relloMR6ULoxrY-qxBjo"
+};
