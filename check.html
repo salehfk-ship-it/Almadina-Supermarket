@@ -1,0 +1,16 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>فحص النظام</title>
+<style>body{font:17px Tahoma,sans-serif;max-width:560px;margin:auto;padding:14px}input,button{width:100%;padding:12px;margin:4px 0;font:inherit;box-sizing:border-box}li{margin:10px 0;list-style:none}</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script>
+<h2>فحص إعدادات المتجر</h2><input id="e" type="email" dir="ltr" placeholder="بريد المدير (اختياري)"><input id="p" type="password" dir="ltr" placeholder="كلمة المرور (اختياري)"><button onclick="run()">ابدأ الفحص</button><ul id="o"></ul>
+<script>
+const L=(ok,t,h)=>o.insertAdjacentHTML("beforeend",`<li>${ok?"✅":"❌"} ${t}${ok||!h?"":"<br><small>← "+h+"</small>"}</li>`);
+async function run(){o.innerHTML="";const M=window.MD||{};
+if(!M.SUPABASE_URL||!M.SUPABASE_ANON_KEY)return L(0,"ملف config.js فاضي","ضع Project URL ومفتاح anon public في config.js");
+try{if(JSON.parse(atob(M.SUPABASE_ANON_KEY.split(".")[1].replace(/-/g,"+").replace(/_/g,"/"))).role==="service_role")return L(0,"هذا مفتاح service_role الخطير","استبدله فوراً بمفتاح anon public")}catch(x){}
+L(1,"ملف config.js معبأ");const sb=supabase.createClient(M.SUPABASE_URL,M.SUPABASE_ANON_KEY);
+for(const t of["categories","products","delivery_zones","store_settings"]){const r=await sb.from(t).select("*",{count:"exact",head:true});L(!r.error,"جدول "+t+(r.error?"":" ("+r.count+")"),r.error&&r.error.message+" — شغّل setup.sql كاملاً")}
+const r=await sb.rpc("place_order",{p:{name:"x",phone:"x",items:[]}});L(!/find the function|does not exist/i.test(r.error&&r.error.message||""),"دالة إنشاء الطلب","شغّل setup.sql كاملاً");
+const a=await sb.rpc("is_admin");L(!a.error,"دالة فحص المدير is_admin",a.error&&a.error.message+" — شغّل setup.sql كاملاً");
+if(e.value){const s=await sb.auth.signInWithPassword({email:e.value.trim(),password:p.value});L(!s.error,"تسجيل الدخول",s.error&&s.error.message+" (راجع كلمة المرور، وأن المستخدم Auto Confirm في Authentication)");
+if(!s.error){const b=await sb.rpc("is_admin");L(b.data===true,"الحساب مضاف كمدير","شغّل آخر أمر في setup.sql ببريد هذا الحساب");await sb.auth.signOut()}}}
+</script></html>

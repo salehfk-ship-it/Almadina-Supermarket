@@ -137,7 +137,7 @@ function openAdm(){if(prompt("رمز دخول الإدارة (تجريبي: 1234
 function closeAdm(){$("adm").style.display="none"}
 function A(t){const o=gO(),td=new Date().toDateString(),to=o.filter(x=>new Date(x.date).toDateString()===td);
 const tabs=[["d","لوحة التحكم"],["p","المنتجات"],["o","الطلبات"],["s","الإعدادات"],["c","استيراد CSV"],["g","الأقسام"],["b","البانرات"],["f","العروض"],["u","العملاء"],["r","التقارير"]];
-let h=`<div class="at np">${tabs.map(x=>`<button class="cat ${x[0]===t?"on":""}" onclick="A('${x[0]}')">${x[1]}</button>`).join("")}<button class="cat" onclick="closeAdm()">✕ إغلاق</button></div>`;
+let h=`<div class="at np">${tabs.map(x=>`<button class="cat ${x[0]===t?"on":""}" onclick="A('${x[0]}')">${x[1]}</button>`).join("")}<button class="cat" onclick="closeAdm()">✕ إغلاق</button><button class="cat" onclick="sb&&sb.auth.signOut();closeAdm()">تسجيل الخروج</button></div>`;
 if(t==="d"){const c=s=>o.filter(x=>x.status===s).length;
 const k=[["طلبات اليوم",to.length],["مبيعات اليوم",fm(to.filter(x=>x.status!=="ملغي").reduce((a,x)=>a+x.total,0))],["جديدة",c("جديد")],["تم التسليم",c("تم التسليم")],["ملغاة",c("ملغي")],["مخزون منخفض",P.filter(p=>p.stock>0&&p.stock<=p.min).length],["نفذت الكمية",P.filter(p=>p.stock<=0).length],["المنتجات",P.length],["العملاء",new Set(o.map(x=>x.phone)).size]];
 h+=`<div class="grid">${k.map(x=>`<div class="card"><small>${x[0]}</small><b class="pr">${x[1]}</b></div>`).join("")}</div>`}
@@ -173,9 +173,14 @@ document.querySelector(".hero").style.display=bn.length?"none":"";
 CONFIG.info=Object.fromEntries((s.data||[]).filter(r=>["phone","address","hours","facebook","instagram","tiktok","maps"].includes(r.key)).map(r=>[r.key,r.value]));
 if(!CATS.includes(cat))cat="الكل";LD=false;render()};
 const ok=r=>{if(r.error){alert("حدث خطأ: "+r.error.message);return false}return true},rf=async t=>{await loadLive();await ref();A(t)};
-openAdm=()=>sheet(`<h2>دخول الإدارة</h2><div class="f"><input id="le" type="email" dir="ltr" placeholder="البريد الإلكتروني"><input id="lp" type="password" dir="ltr" placeholder="كلمة المرور"></div><div id="er"></div><button class="big" onclick="doLogin()">دخول</button>`);
-window.doLogin=async()=>{const r=await sb.auth.signInWithPassword({email:$("le").value.trim(),password:$("lp").value});if(r.error)return $("er").innerHTML='<div class="err">بيانات الدخول غير صحيحة</div>';
-const a=await sb.from('admins').select('user_id').maybeSingle();if(!a.data){await sb.auth.signOut();return $("er").innerHTML='<div class="err">هذا الحساب ليس مديراً</div>'}closeS();$("adm").style.display="block";await rf("d")};
+openAdm=async()=>{const q=await sb.auth.getSession();if(q.data.session){const a=await sb.rpc('is_admin');if(a.data===true){$("adm").style.display="block";return rf("d")}}sheet(`<h2>دخول الإدارة</h2><div class="f"><input id="le" type="email" dir="ltr" placeholder="البريد الإلكتروني"><input id="lp" type="password" onkeydown="if(event.key==='Enter')doLogin()" dir="ltr" placeholder="كلمة المرور"></div><div id="er"></div><button class="big" onclick="doLogin()">دخول</button>`)};
+window.doLogin=async()=>{const E=m=>$("er").innerHTML='<div class="err">'+m+'</div>';
+const r=await sb.auth.signInWithPassword({email:$("le").value.trim(),password:$("lp").value});
+if(r.error){const m=r.error.message||"";return E(/confirm/i.test(m)?"البريد غير مؤكد: فعّل تأكيد المستخدم من Supabase > Authentication > Users ثم أعد المحاولة":/invalid login/i.test(m)?"البريد أو كلمة المرور غير صحيحة":"تعذر تسجيل الدخول: "+m)}
+const a=await sb.rpc('is_admin');
+if(a.error)return E("تعذر التحقق من الصلاحية: "+a.error.message+" — شغّل ملف setup.sql كاملاً");
+if(a.data!==true){await sb.auth.signOut();return E("هذا الحساب ليس مديراً — شغّل آخر أمر في setup.sql ببريدك")}
+closeS();$("adm").style.display="block";await rf("d")};
 const K={price:"price",old:"old_price",stock:"stock",min:"min_stock"};
 eP=async(id,k,v)=>{ok(await sb.from('products').update({[K[k]]:+v||0}).eq('id',id));rf("p")};
 hP=async id=>{ok(await sb.from('products').update({active:byId(id).hidden}).eq('id',id));rf("p")};
