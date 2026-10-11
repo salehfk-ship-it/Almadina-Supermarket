@@ -112,3 +112,6 @@ select v.a,v.b,v.c,v.d,v.e,v.f,v.g,true,c.id from (values
 -- ⚠️ ضع بريد المدير بدل البريد التالي (نفس بريد المستخدم في Authentication) ثم شغّل الملف
 insert into admins(user_id) select id from auth.users where lower(email)=lower('salehfk@gmail.com') on conflict do nothing;
 select count(*) as عدد_المديرين from admins; -- يجب أن تكون النتيجة 1 على الأقل
+alter table products add column if not exists barcode text;
+create unique index if not exists ux_products_barcode on products(barcode) where barcode is not null;
+insert into categories(name_ar,slug,sort) select 'البقوليات','legumes',coalesce(max(sort),0)+1 from categories on conflict(slug) do nothing;
