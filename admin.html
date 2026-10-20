@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>سوبر ماركت المدينة</title>
+  <style>
+    :root {
+      --green: #16803c;
+      --green-dark: #0e5a2a;
+      --green-soft: #edf9f0;
+      --orange: #ffb347;
+      --text: #1b2a1f;
+      --muted: #587062;
+      --bg: #f5f7f5;
+      --card: #ffffff;
+      --border: #dfe7df;
+      --shadow: 0 12px 32px rgba(18, 58, 32, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Cairo", "Tahoma", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--green-dark);
+    }
+
+    .brand small {
+      display: block;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .nav a:hover { color: var(--green-dark); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      min-width: 240px;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 12px;
+      padding: 11px 18px;
+      background: var(--green);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .button:hover { transform: translateY(-1px); }
+    .button.secondary {
+      background: var(--green-soft);
+      color: var(--green-dark);
+      border: 1px solid rgba(22, 128, 60, 0.15);
+    }
+
+    .hero {
+      padding: 28px 0 16px;
+    }
+
+    .hero-wrap {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 24px;
+      align-items: center;
+      background: linear-gradient(135deg, #edf9f0, #fdfdfd);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: #eaf7ee;
+      color: var(--green-dark);
+      border: 1px solid rgba(22, 128, 60, 0.15);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 3vw, 3.2rem);
+      line-height: 1.25;
+      margin: 0 0 12px;
+      color: var(--green-dark);
+    }
+
+    .hero p {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .stats strong { color: var(--text); display: block; font-size: 1.4rem; }
+
+    .hero-card {
+      background: linear-gradient(180deg, #ffffff, #f0fbf3);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .mini-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .mini-box:last-child { margin-bottom: 0; }
+
+    .mini-box h3 {
+      margin: 0 0 8px;
+      color: var(--green-dark);
+      font-size: 1.05rem;
+    }
+
+    .mini-box .price {
+      font-size: 1.8rem;
+      color: var(--text);
+      font-weight: 900;
+    }
+
+    .mini-box .old {
+      color: var(--muted);
+      text-decoration: line-through;
+      margin-right: 8px;
+    }
+
+    .section {
+      padding: 26px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.5rem, 2vw, 2.2rem);
+      color: var(--green-dark);
+    }
+
+    .chips {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 14px;
+      color: var(--muted);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .chip.active {
+      background: var(--green-dark);
+      border-color: var(--green-dark);
+      color: white;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .product-image {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f0f8f1, #f8faf8);
+      font-size: 3.2rem;
+    }
+
+    .product-body {
+      padding: 16px;
+    }
+
+    .product-name {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      color: var(--text);
+      min-height: 48px;
+    }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      background: #edf7ee;
+      color: var(--green-dark);
+    }
+
+    .price {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--green-dark);
+    }
+
+    .product-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stock {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .cart-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: #fff;
+      margin-top: 18px;
+    }
+
+    .footer {
+      background: #0f2018;
+      color: rgba(255,255,255,0.8);
+      padding: 26px 0;
+      margin-top: 40px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 840px) {
+      .hero-wrap { grid-template-columns: 1fr; }
+      .topbar-inner { flex-direction: column; align-items: stretch; }
+      .nav { justify-content: center; }
+      .header-actions { justify-content: center; }
+      .search-box { min-width: 0; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        المدينة
+        <small>سوبر ماركت</small>
+      </div>
+
+      <nav class="nav">
+        <a href="#home">الرئيسية</a>
+        <a href="#categories">الأقسام</a>
+        <a href="#products">المنتجات</a>
+        <a href="#offers">العروض</a>
+      </nav>
+
+      <div class="header-actions">
+        <input id="homeSearch" class="search-box" type="search" placeholder="ابحث عن منتج..." />
+        <button class="button secondary" type="button" onclick="location.href='admin.html'">لوحة الإدارة</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-wrap">
+        <div>
+          <span class="eyebrow">توصيل سريع خلال 30 دقيقة</span>
+          <h1>أفضل المنتجات اليومية من متجر المدينة</h1>
+          <p>أقسام متنوعة، أسعار مناسبة، وعروض حصرية على كل طلب. اطلب الآن واستمتع بتجربة تسوق سهلة ومريحة.</p>
+
+          <div class="hero-actions">
+            <a href="#products" class="button">تسوق الآن</a>
+            <a href="admin.html" class="button secondary">إدارة المنتجات</a>
+          </div>
+
+          <div class="stats">
+            <div><strong>2500+</strong>منتج</div>
+            <div><strong>4.9/5</strong>تقييم</div>
+            <div><strong>24/7</strong>خدمة</div>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="mini-box">
+            <h3>عرض اليوم</h3>
+            <div class="price"><span class="old">59.00</span>49.00 ر.س</div>
+          </div>
+
+          <div class="mini-box">
+            <h3>أفضل المبيعات</h3>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+              <span>دجاج طازج</span>
+              <strong>32.00 ر.س</strong>
+            </div>
+          </div>
+
+          <div class="mini-box">
+            <h3>توصيل مجاني</h3>
+            <div>للطلبات فوق 100 ر.س</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="categories">
+      <div class="container">
+        <div class="section-head">
+          <h2>الأقسام</h2>
+        </div>
+        <div class="chips">
+          <span class="chip active">الكل</span>
+          <span class="chip">مشروبات</span>
+          <span class="chip">مواد غذائية</span>
+          <span class="chip">ألبان</span>
+          <span class="chip">منظفات</span>
+          <span class="chip">مخبوزات</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="products">
+      <div class="container">
+        <div class="section-head">
+          <h2>منتجاتنا المميزة</h2>
+        </div>
+        <div id="productsGrid" class="products-grid"></div>
+        <div class="cart-summary">
+          <div>
+            <strong id="cartCount">0</strong>
+            <span>منتج في السلة</span>
+          </div>
+          <div>
+            <strong id="cartTotal">0.00 ر.س</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="offers">
+      <div class="container">
+        <div class="section-head">
+          <h2>العروض الحالية</h2>
+        </div>
+        <div class="products-grid">
+          <article class="product-card">
+            <div class="product-image">🥤</div>
+            <div class="product-body">
+              <h3 class="product-name">عرض المشروبات</h3>
+              <div class="product-meta"><span class="tag">خصم 20%</span><span class="price">24.00</span></div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">🥚</div>
+            <div class="product-body">
+              <h3 class="product-name">عرض المخبوزات</h3>
+              <div class="product-meta"><span class="tag">خصم 15%</span><span class="price">18.50</span></div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">🧼</div>
+            <div class="product-body">
+              <h3 class="product-name">عرض المنظفات</h3>
+              <div class="product-meta"><span class="tag">خصم 25%</span><span class="price">31.00</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>السوق المدينة</strong><br />
+        متجر يومي يوفر كل احتياجات العائلة.
+      </div>
+      <div>واتساب: 966500000000+</div>
+      <div>العنوان: المدينة المنورة</div>
+    </div>
+  </footer>
+
+  <script>
+    const STORAGE_KEY = 'md_products';
+    const defaultProducts = [
+      { id: 1, name: 'كوكاكولا 1.25 لتر', price: 8.5, stock: 40, emoji: '🥤' },
+      { id: 2, name: 'مياه معدنية 1.5 لتر', price: 1.5, stock: 200, emoji: '💧' },
+      { id: 3, name: 'عصير برتقال 1 لتر', price: 6, stock: 3, emoji: '🍊' },
+      { id: 4, name: 'أرز بسمتي 5 كيلو', price: 32, stock: 25, emoji: '🍚' },
+      { id: 5, name: 'مكرونة سباغيتي 500 جرام', price: 2.5, stock: 120, emoji: '🍝' },
+      { id: 6, name: 'سكر أبيض 1 كيلو', price: 3.5, stock: 80, emoji: '🍬' },
+      { id: 7, name: 'زيت دوار الشمس 1.8 لتر', price: 18, stock: 0, emoji: '🫒' }
+    ];
+
+    let cart = JSON.parse(localStorage.getItem('md_cart') || '[]');
+    let products = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || defaultProducts;
+
+    function renderProducts() {
+      const query = document.getElementById('homeSearch').value.trim().toLowerCase();
+      const filtered = products.filter(product => !query || product.name.toLowerCase().includes(query));
+
+      const grid = document.getElementById('productsGrid');
+      grid.innerHTML = filtered.length ? filtered.map(product => `
+        <article class="product-card">
+          <div class="product-image">${product.emoji || '🛒'}</div>
+          <div class="product-body">
+            <h3 class="product-name">${product.name}</h3>
+            <div class="product-meta">
+              <span class="tag">متوفر</span>
+              <span class="price">${Number(product.price).toFixed(2)} ر.س</span>
+            </div>
+            <div class="product-actions">
+              <span class="stock">المخزون: ${product.stock}</span>
+              <button class="button" type="button" data-id="${product.id}">أضف للسلة</button>
+            </div>
+          </div>
+        </article>
+      `).join('') : '<div class="empty-state" style="padding:20px; color:#587062;">لا توجد منتجات مطابقة للبحث.</div>';
+
+      updateCartSummary();
+    }
+
+    function updateCartSummary() {
+      const count = cart.length;
+      const total = cart.reduce((sum, item) => sum + Number(item.price || 0), 0);
+      document.getElementById('cartCount').textContent = count;
+      document.getElementById('cartTotal').textContent = total.toFixed(2) + ' ر.س';
+    }
+
+    document.getElementById('homeSearch').addEventListener('input', renderProducts);
+
+    document.addEventListener('click', (event) => {
+      const button = event.target.closest('button[data-id]');
+      if (!button) return;
+
+      const id = Number(button.dataset.id);
+      const product = products.find(item => item.id === id);
+      if (!product) return;
+
+      cart.push({ id: product.id, name: product.name, price: product.price });
+      localStorage.setItem('md_cart', JSON.stringify(cart));
+      updateCartSummary();
+      button.textContent = 'تمت الإضافة';
+      button.disabled = true;
+      setTimeout(() => {
+        button.textContent = 'أضف للسلة';
+        button.disabled = false;
+      }, 900);
+    });
+
+    renderProducts();
+  </script>
+</body>
+</html>
