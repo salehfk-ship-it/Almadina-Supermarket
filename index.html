@@ -108,11 +108,6 @@
       color: #fff;
     }
 
-    .danger-btn {
-      background: var(--red);
-      color: #fff;
-    }
-
     .ghost-btn {
       background: #eef5ef;
       color: var(--green-dark);
@@ -128,12 +123,6 @@
       justify-content: center;
       border-radius: 8px;
       font-size: 18px;
-    }
-
-    .delete-btn {
-      background: rgba(227, 39, 38, 0.1);
-      color: var(--red-dark);
-      border: 1px solid rgba(227, 39, 38, 0.15);
     }
 
     .edit-btn {
@@ -196,13 +185,6 @@
       font-size: 15px;
     }
 
-    .checkbox {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--green);
-      cursor: pointer;
-    }
-
     .empty-state {
       text-align: center;
       color: var(--muted);
@@ -231,11 +213,6 @@
       </div>
 
       <div class="toolbar-right">
-        <label style="display:flex;align-items:center;gap:8px;font-weight:600;">
-          <input id="selectAll" class="checkbox" type="checkbox" />
-          تحديد الكل
-        </label>
-        <button id="bulkDelete" class="danger-btn">حذف المحدد</button>
         <button id="addProduct" class="primary-btn">إضافة منتج</button>
       </div>
     </div>
@@ -244,7 +221,6 @@
       <table>
         <thead>
           <tr>
-            <th style="width:48px;"><input id="headerSelectAll" class="checkbox" type="checkbox" /></th>
             <th class="name-cell">اسم المنتج</th>
             <th>السعر</th>
             <th>المخزون</th>
@@ -270,7 +246,6 @@
     ];
 
     let products = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || defaultProducts;
-    const selected = new Set();
 
     function saveProducts() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
@@ -283,7 +258,6 @@
       const tbody = document.getElementById('productTable');
       tbody.innerHTML = filtered.length ? filtered.map(product => `
         <tr data-id="${product.id}">
-          <td><input class="checkbox product-checkbox" type="checkbox" data-id="${product.id}" ${selected.has(product.id) ? 'checked' : ''} /></td>
           <td class="name-cell">
             <input class="product-name" type="text" value="${product.name.replace(/"/g, '&quot;')}" data-id="${product.id}" aria-label="اسم المنتج" />
           </td>
@@ -295,16 +269,9 @@
           </td>
           <td>
             <button class="icon-btn edit-btn" title="تحديث المنتج" data-id="${product.id}">✎</button>
-            <button class="icon-btn delete-btn" title="حذف المنتج" data-id="${product.id}">🗑</button>
           </td>
         </tr>
-      `).join('') : '<tr><td colspan="5" class="empty-state">لا توجد منتجات مطابقة للبحث</td></tr>';
-
-      const allChecked = filtered.length > 0 && filtered.every(product => selected.has(product.id));
-      const headerCheckbox = document.getElementById('headerSelectAll');
-      const selectAllCheckbox = document.getElementById('selectAll');
-      if (headerCheckbox) headerCheckbox.checked = allChecked;
-      if (selectAllCheckbox) selectAllCheckbox.checked = allChecked;
+      `).join('') : '<tr><td colspan="4" class="empty-state">لا توجد منتجات مطابقة للبحث</td></tr>';
     }
 
     function saveSingleProduct(id, field, value) {
@@ -321,26 +288,6 @@
         product.stock = Number(value) || 0;
       }
 
-      saveProducts();
-      renderProducts();
-    }
-
-    function toggleSelection(id, checked) {
-      if (checked) selected.add(id); else selected.delete(id);
-      renderProducts();
-    }
-
-    function bulkDeleteSelected() {
-      if (selected.size === 0) {
-        alert('اختر منتجاً واحداً على الأقل للحذف');
-        return;
-      }
-
-      const confirmed = confirm(`هل تريد حذف ${selected.size} منتج(ـات) المحدد(ة)؟`);
-      if (!confirmed) return;
-
-      products = products.filter(product => !selected.has(product.id));
-      selected.clear();
       saveProducts();
       renderProducts();
     }
@@ -362,29 +309,10 @@
     }
 
     document.getElementById('productSearch').addEventListener('input', renderProducts);
-
-    document.getElementById('selectAll').addEventListener('change', (event) => {
-      const checked = event.target.checked;
-      const visible = products.filter(product => product.name.toLowerCase().includes(document.getElementById('productSearch').value.trim().toLowerCase()));
-      visible.forEach(product => toggleSelection(product.id, checked));
-    });
-
-    document.getElementById('headerSelectAll').addEventListener('change', (event) => {
-      const checked = event.target.checked;
-      const visible = products.filter(product => product.name.toLowerCase().includes(document.getElementById('productSearch').value.trim().toLowerCase()));
-      visible.forEach(product => toggleSelection(product.id, checked));
-    });
-
-    document.getElementById('bulkDelete').addEventListener('click', bulkDeleteSelected);
     document.getElementById('addProduct').addEventListener('click', addProduct);
 
     document.addEventListener('change', (event) => {
       const target = event.target;
-
-      if (target.matches('.product-checkbox')) {
-        toggleSelection(Number(target.dataset.id), target.checked);
-        return;
-      }
 
       if (target.matches('.product-name')) {
         saveSingleProduct(Number(target.dataset.id), 'name', target.value);
@@ -406,15 +334,6 @@
       if (!target) return;
 
       const id = Number(target.dataset.id);
-      if (target.classList.contains('delete-btn')) {
-        const confirmed = confirm('هل تريد حذف هذا المنتج؟');
-        if (!confirmed) return;
-        products = products.filter(product => product.id !== id);
-        selected.delete(id);
-        saveProducts();
-        renderProducts();
-      }
-
       if (target.classList.contains('edit-btn')) {
         const product = products.find(item => item.id === id);
         if (!product) return;
