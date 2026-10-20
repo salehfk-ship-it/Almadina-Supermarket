@@ -113,6 +113,12 @@
       border: 1px solid rgba(22, 128, 60, 0.15);
     }
 
+    .button.danger {
+      background: #e14b4b;
+      color: white;
+      border: 1px solid rgba(225, 75, 75, 0.2);
+    }
+
     .hero {
       padding: 28px 0 16px;
     }
@@ -332,6 +338,110 @@
       margin-top: 18px;
     }
 
+    .admin-panel {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 20px;
+    }
+
+    .product-form {
+      background: #f8faf8;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .product-form label {
+      display: grid;
+      gap: 8px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .product-form input {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--text);
+      background: #fff;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .admin-products-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .admin-product-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      background: #f8faf8;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+
+    .admin-product-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .admin-product-emoji {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      background: #edf9f0;
+    }
+
+    .admin-product-meta {
+      min-width: 0;
+    }
+
+    .admin-product-meta strong {
+      display: block;
+      color: var(--text);
+      font-size: 1rem;
+      overflow-wrap: anywhere;
+    }
+
+    .admin-product-meta span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .admin-product-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
     .footer {
       background: #0f2018;
       color: rgba(255,255,255,0.8);
@@ -352,6 +462,9 @@
       .nav { justify-content: center; }
       .header-actions { justify-content: center; }
       .search-box { min-width: 0; width: 100%; }
+      .admin-layout { grid-template-columns: 1fr; }
+      .admin-product-row { flex-direction: column; align-items: stretch; }
+      .admin-product-actions { justify-content: flex-start; }
     }
   </style>
 </head>
@@ -364,124 +477,59 @@
       </div>
 
       <nav class="nav">
-        <a href="#home">الرئيسية</a>
-        <a href="#categories">الأقسام</a>
-        <a href="#products">المنتجات</a>
-        <a href="#offers">العروض</a>
+        <a href="index.html">الرئيسية</a>
+        <a href="admin.html">لوحة الإدارة</a>
       </nav>
 
       <div class="header-actions">
-        <input id="homeSearch" class="search-box" type="search" placeholder="ابحث عن منتج..." />
-        <button class="button secondary" type="button" onclick="location.href='admin.html'">لوحة الإدارة</button>
+        <button class="button secondary" type="button" onclick="location.href='index.html'">العودة للمتجر</button>
       </div>
     </div>
   </header>
 
-  <main id="home">
-    <section class="hero">
-      <div class="container hero-wrap">
-        <div>
-          <span class="eyebrow">توصيل سريع خلال 30 دقيقة</span>
-          <h1>أفضل المنتجات اليومية من متجر المدينة</h1>
-          <p>أقسام متنوعة، أسعار مناسبة، وعروض حصرية على كل طلب. اطلب الآن واستمتع بتجربة تسوق سهلة ومريحة.</p>
-
-          <div class="hero-actions">
-            <a href="#products" class="button">تسوق الآن</a>
-            <a href="admin.html" class="button secondary">إدارة المنتجات</a>
-          </div>
-
-          <div class="stats">
-            <div><strong>2500+</strong>منتج</div>
-            <div><strong>4.9/5</strong>تقييم</div>
-            <div><strong>24/7</strong>خدمة</div>
-          </div>
+  <main>
+    <section class="section">
+      <div class="container admin-panel">
+        <div class="section-head">
+          <h2>لوحة إدارة المنتجات</h2>
         </div>
 
-        <div class="hero-card">
-          <div class="mini-box">
-            <h3>عرض اليوم</h3>
-            <div class="price"><span class="old">59.00</span>49.00 ر.س</div>
-          </div>
+        <div class="admin-layout">
+          <form id="productForm" class="product-form">
+            <input id="productId" type="hidden" />
 
-          <div class="mini-box">
-            <h3>أفضل المبيعات</h3>
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
-              <span>دجاج طازج</span>
-              <strong>32.00 ر.س</strong>
+            <label>
+              اسم المنتج
+              <input id="productName" type="text" placeholder="مثال: لبن طويل الأمد" required />
+            </label>
+
+            <label>
+              السعر (ر.س)
+              <input id="productPrice" type="number" min="0" step="0.01" placeholder="12.50" required />
+            </label>
+
+            <label>
+              المخزون
+              <input id="productStock" type="number" min="0" step="1" placeholder="20" required />
+            </label>
+
+            <label>
+              رمز المنتج
+              <input id="productEmoji" type="text" maxlength="2" placeholder="🥤" />
+            </label>
+
+            <div class="form-actions">
+              <button id="saveProductBtn" class="button" type="submit">حفظ المنتج</button>
+              <button id="cancelEditBtn" class="button secondary" type="button">إلغاء</button>
             </div>
-          </div>
+          </form>
 
-          <div class="mini-box">
-            <h3>توصيل مجاني</h3>
-            <div>للطلبات فوق 100 ر.س</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="categories">
-      <div class="container">
-        <div class="section-head">
-          <h2>الأقسام</h2>
-        </div>
-        <div class="chips">
-          <span class="chip active">الكل</span>
-          <span class="chip">مشروبات</span>
-          <span class="chip">مواد غذائية</span>
-          <span class="chip">ألبان</span>
-          <span class="chip">منظفات</span>
-          <span class="chip">مخبوزات</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="products">
-      <div class="container">
-        <div class="section-head">
-          <h2>منتجاتنا المميزة</h2>
-        </div>
-        <div id="productsGrid" class="products-grid"></div>
-        <div class="cart-summary">
           <div>
-            <strong id="cartCount">0</strong>
-            <span>منتج في السلة</span>
+            <div class="section-head" style="margin-bottom: 12px;">
+              <h2 style="font-size: 1.4rem;">قائمة المنتجات</h2>
+            </div>
+            <div id="adminProductsList" class="admin-products-list"></div>
           </div>
-          <div>
-            <strong id="cartTotal">0.00 ر.س</strong>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="offers">
-      <div class="container">
-        <div class="section-head">
-          <h2>العروض الحالية</h2>
-        </div>
-        <div class="products-grid">
-          <article class="product-card">
-            <div class="product-image">🥤</div>
-            <div class="product-body">
-              <h3 class="product-name">عرض المشروبات</h3>
-              <div class="product-meta"><span class="tag">خصم 20%</span><span class="price">24.00</span></div>
-            </div>
-          </article>
-
-          <article class="product-card">
-            <div class="product-image">🥚</div>
-            <div class="product-body">
-              <h3 class="product-name">عرض المخبوزات</h3>
-              <div class="product-meta"><span class="tag">خصم 15%</span><span class="price">18.50</span></div>
-            </div>
-          </article>
-
-          <article class="product-card">
-            <div class="product-image">🧼</div>
-            <div class="product-body">
-              <h3 class="product-name">عرض المنظفات</h3>
-              <div class="product-meta"><span class="tag">خصم 25%</span><span class="price">31.00</span></div>
-            </div>
-          </article>
         </div>
       </div>
     </section>
@@ -510,63 +558,119 @@
       { id: 7, name: 'زيت دوار الشمس 1.8 لتر', price: 18, stock: 0, emoji: '🫒' }
     ];
 
-    let cart = JSON.parse(localStorage.getItem('md_cart') || '[]');
     let products = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || defaultProducts;
 
-    function renderProducts() {
-      const query = document.getElementById('homeSearch').value.trim().toLowerCase();
-      const filtered = products.filter(product => !query || product.name.toLowerCase().includes(query));
+    const productForm = document.getElementById('productForm');
+    const productIdInput = document.getElementById('productId');
+    const productNameInput = document.getElementById('productName');
+    const productPriceInput = document.getElementById('productPrice');
+    const productStockInput = document.getElementById('productStock');
+    const productEmojiInput = document.getElementById('productEmoji');
+    const adminProductsList = document.getElementById('adminProductsList');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
 
-      const grid = document.getElementById('productsGrid');
-      grid.innerHTML = filtered.length ? filtered.map(product => `
-        <article class="product-card">
-          <div class="product-image">${product.emoji || '🛒'}</div>
-          <div class="product-body">
-            <h3 class="product-name">${product.name}</h3>
-            <div class="product-meta">
-              <span class="tag">متوفر</span>
-              <span class="price">${Number(product.price).toFixed(2)} ر.س</span>
-            </div>
-            <div class="product-actions">
-              <span class="stock">المخزون: ${product.stock}</span>
-              <button class="button" type="button" data-id="${product.id}">أضف للسلة</button>
+    function saveProducts() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+    }
+
+    function resetForm() {
+      productForm.reset();
+      productIdInput.value = '';
+      document.getElementById('saveProductBtn').textContent = 'حفظ المنتج';
+    }
+
+    function renderAdminProducts() {
+      if (!adminProductsList) return;
+
+      if (!products.length) {
+        adminProductsList.innerHTML = '<div class="empty-state" style="padding:20px; color:#587062; background:#f8faf8; border:1px solid var(--border); border-radius:14px;">لا توجد منتجات حتى الآن.</div>';
+        return;
+      }
+
+      adminProductsList.innerHTML = products.map(product => `
+        <div class="admin-product-row">
+          <div class="admin-product-info">
+            <div class="admin-product-emoji">${product.emoji || '🛒'}</div>
+            <div class="admin-product-meta">
+              <strong>${product.name}</strong>
+              <span>${Number(product.price).toFixed(2)} ر.س • المخزون: ${product.stock}</span>
             </div>
           </div>
-        </article>
-      `).join('') : '<div class="empty-state" style="padding:20px; color:#587062;">لا توجد منتجات مطابقة للبحث.</div>';
-
-      updateCartSummary();
+          <div class="admin-product-actions">
+            <button class="button secondary" type="button" data-edit-id="${product.id}">تعديل الاسم</button>
+            <button class="button danger" type="button" data-delete-id="${product.id}">حذف</button>
+          </div>
+        </div>
+      `).join('');
     }
 
-    function updateCartSummary() {
-      const count = cart.length;
-      const total = cart.reduce((sum, item) => sum + Number(item.price || 0), 0);
-      document.getElementById('cartCount').textContent = count;
-      document.getElementById('cartTotal').textContent = total.toFixed(2) + ' ر.س';
-    }
-
-    document.getElementById('homeSearch').addEventListener('input', renderProducts);
-
-    document.addEventListener('click', (event) => {
-      const button = event.target.closest('button[data-id]');
-      if (!button) return;
-
-      const id = Number(button.dataset.id);
-      const product = products.find(item => item.id === id);
+    function openEditProduct(productId) {
+      const product = products.find(item => Number(item.id) === Number(productId));
       if (!product) return;
 
-      cart.push({ id: product.id, name: product.name, price: product.price });
-      localStorage.setItem('md_cart', JSON.stringify(cart));
-      updateCartSummary();
-      button.textContent = 'تمت الإضافة';
-      button.disabled = true;
-      setTimeout(() => {
-        button.textContent = 'أضف للسلة';
-        button.disabled = false;
-      }, 900);
+      productIdInput.value = product.id;
+      productNameInput.value = product.name;
+      productPriceInput.value = product.price;
+      productStockInput.value = product.stock;
+      productEmojiInput.value = product.emoji || '';
+      document.getElementById('saveProductBtn').textContent = 'تحديث المنتج';
+      productNameInput.focus();
+    }
+
+    productForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const id = productIdInput.value ? Number(productIdInput.value) : Date.now();
+      const name = productNameInput.value.trim();
+      const price = Number(productPriceInput.value);
+      const stock = Number(productStockInput.value);
+      const emoji = productEmojiInput.value.trim() || '🛒';
+
+      if (!name) {
+        alert('يرجى إدخال اسم المنتج');
+        return;
+      }
+
+      const existingIndex = products.findIndex(item => Number(item.id) === Number(id));
+
+      if (existingIndex >= 0) {
+        products[existingIndex] = { ...products[existingIndex], name, price, stock, emoji };
+      } else {
+        products.push({ id, name, price, stock, emoji });
+      }
+
+      saveProducts();
+      renderAdminProducts();
+      resetForm();
     });
 
-    renderProducts();
+    cancelEditBtn.addEventListener('click', resetForm);
+
+    document.addEventListener('click', (event) => {
+      const editButton = event.target.closest('[data-edit-id]');
+      if (editButton) {
+        openEditProduct(editButton.dataset.editId);
+        return;
+      }
+
+      const deleteButton = event.target.closest('[data-delete-id]');
+      if (deleteButton) {
+        const productId = Number(deleteButton.dataset.deleteId);
+        const product = products.find(item => Number(item.id) === productId);
+
+        if (!product) return;
+
+        const confirmed = window.confirm(`هل تريد حذف المنتج: ${product.name}?`);
+        if (!confirmed) return;
+
+        products = products.filter(item => Number(item.id) !== productId);
+        saveProducts();
+        renderAdminProducts();
+        resetForm();
+      }
+    });
+
+    renderAdminProducts();
   </script>
 </body>
 </html>
