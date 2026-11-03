@@ -1,676 +1,266 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>سوبر ماركت المدينة</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>إدارة المنتجات | سوبر ماركت المدينة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
   <style>
-    :root {
-      --green: #16803c;
-      --green-dark: #0e5a2a;
-      --green-soft: #edf9f0;
-      --orange: #ffb347;
-      --text: #1b2a1f;
-      --muted: #587062;
-      --bg: #f5f7f5;
-      --card: #ffffff;
-      --border: #dfe7df;
-      --shadow: 0 12px 32px rgba(18, 58, 32, 0.08);
-    }
-
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "Cairo", "Tahoma", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
-
-    .container {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-    }
-
-    .topbar {
-      background: #fff;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 20;
-    }
-
-    .topbar-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 14px 0;
-    }
-
-    .brand {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--green-dark);
-    }
-
-    .brand small {
-      display: block;
-      color: var(--muted);
-      font-size: 0.72rem;
-      font-weight: 600;
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      flex-wrap: wrap;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .nav a:hover { color: var(--green-dark); }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .search-box {
-      min-width: 240px;
-      padding: 11px 14px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: #fff;
-      font-size: 15px;
-      color: var(--text);
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      border-radius: 12px;
-      padding: 11px 18px;
-      background: var(--green);
-      color: white;
-      font-weight: 800;
-      cursor: pointer;
-      transition: transform 0.15s ease;
-    }
-
-    .button:hover { transform: translateY(-1px); }
-    .button.secondary {
-      background: var(--green-soft);
-      color: var(--green-dark);
-      border: 1px solid rgba(22, 128, 60, 0.15);
-    }
-
-    .button.danger {
-      background: #e14b4b;
-      color: white;
-      border: 1px solid rgba(225, 75, 75, 0.2);
-    }
-
-    .hero {
-      padding: 28px 0 16px;
-    }
-
-    .hero-wrap {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 24px;
-      align-items: center;
-      background: linear-gradient(135deg, #edf9f0, #fdfdfd);
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      padding: 32px;
-      box-shadow: var(--shadow);
-    }
-
-    .eyebrow {
-      display: inline-block;
-      background: #eaf7ee;
-      color: var(--green-dark);
-      border: 1px solid rgba(22, 128, 60, 0.15);
-      border-radius: 999px;
-      padding: 7px 12px;
-      font-size: 14px;
-      font-weight: 800;
-      margin-bottom: 14px;
-    }
-
-    h1 {
-      font-size: clamp(2.1rem, 3vw, 3.2rem);
-      line-height: 1.25;
-      margin: 0 0 12px;
-      color: var(--green-dark);
-    }
-
-    .hero p {
-      margin: 0 0 24px;
-      color: var(--muted);
-      font-size: 1.08rem;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
-    }
-
-    .stats {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .stats strong { color: var(--text); display: block; font-size: 1.4rem; }
-
-    .hero-card {
-      background: linear-gradient(180deg, #ffffff, #f0fbf3);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .mini-box {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 16px;
-      margin-bottom: 14px;
-    }
-
-    .mini-box:last-child { margin-bottom: 0; }
-
-    .mini-box h3 {
-      margin: 0 0 8px;
-      color: var(--green-dark);
-      font-size: 1.05rem;
-    }
-
-    .mini-box .price {
-      font-size: 1.8rem;
-      color: var(--text);
-      font-weight: 900;
-    }
-
-    .mini-box .old {
-      color: var(--muted);
-      text-decoration: line-through;
-      margin-right: 8px;
-    }
-
-    .section {
-      padding: 26px 0;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-
-    .section-head h2 {
-      margin: 0;
-      font-size: clamp(1.5rem, 2vw, 2.2rem);
-      color: var(--green-dark);
-    }
-
-    .chips {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .chip {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 10px 14px;
-      color: var(--muted);
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .chip.active {
-      background: var(--green-dark);
-      border-color: var(--green-dark);
-      color: white;
-    }
-
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .product-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .product-image {
-      height: 180px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #f0f8f1, #f8faf8);
-      font-size: 3.2rem;
-    }
-
-    .product-body {
-      padding: 16px;
-    }
-
-    .product-name {
-      margin: 0 0 8px;
-      font-size: 1.05rem;
-      color: var(--text);
-      min-height: 48px;
-    }
-
-    .product-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      padding: 5px 9px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
-      background: #edf7ee;
-      color: var(--green-dark);
-    }
-
-    .price {
-      font-size: 1.4rem;
-      font-weight: 900;
-      color: var(--green-dark);
-    }
-
-    .product-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .stock {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .cart-summary {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 20px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: #fff;
-      margin-top: 18px;
-    }
-
-    .admin-panel {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      padding: 24px;
-      box-shadow: var(--shadow);
-    }
-
-    .admin-layout {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 20px;
-    }
-
-    .product-form {
-      background: #f8faf8;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 18px;
-      display: grid;
-      gap: 14px;
-    }
-
-    .product-form label {
-      display: grid;
-      gap: 8px;
-      font-weight: 700;
-      color: var(--muted);
-    }
-
-    .product-form input {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
-      font-size: 15px;
-      font-family: inherit;
-      color: var(--text);
-      background: #fff;
-    }
-
-    .form-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 8px;
-    }
-
-    .admin-products-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .admin-product-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      background: #f8faf8;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 16px;
-    }
-
-    .admin-product-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .admin-product-emoji {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      font-size: 24px;
-      background: #edf9f0;
-    }
-
-    .admin-product-meta {
-      min-width: 0;
-    }
-
-    .admin-product-meta strong {
-      display: block;
-      color: var(--text);
-      font-size: 1rem;
-      overflow-wrap: anywhere;
-    }
-
-    .admin-product-meta span {
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-
-    .admin-product-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .footer {
-      background: #0f2018;
-      color: rgba(255,255,255,0.8);
-      padding: 26px 0;
-      margin-top: 40px;
-    }
-
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    @media (max-width: 840px) {
-      .hero-wrap { grid-template-columns: 1fr; }
-      .topbar-inner { flex-direction: column; align-items: stretch; }
-      .nav { justify-content: center; }
-      .header-actions { justify-content: center; }
-      .search-box { min-width: 0; width: 100%; }
-      .admin-layout { grid-template-columns: 1fr; }
-      .admin-product-row { flex-direction: column; align-items: stretch; }
-      .admin-product-actions { justify-content: flex-start; }
-    }
+    :root{--green:#16803c;--dark:#0e5a2a;--bg:#f5f7f5;--border:#dfe7df;--muted:#587062;--red:#d93636}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1b2a1f;font-family:Cairo,Tahoma,sans-serif}
+    .wrap{width:min(1200px,calc(100% - 28px));margin:24px auto}.panel{background:#fff;border:1px solid var(--border);border-radius:20px;padding:22px;margin-bottom:18px}
+    h1,h2{color:var(--dark);margin-top:0}.layout{display:grid;grid-template-columns:minmax(280px,390px) 1fr;gap:18px}
+    .form{display:grid;gap:11px}.form label{display:grid;gap:5px;color:var(--muted);font-weight:700}
+    input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#fff;color:#1b2a1f}
+    .check{display:flex!important;align-items:center;gap:8px;padding:10px;border:1px solid var(--border);border-radius:10px;background:#f8faf8}.check input{width:auto}
+    .actions,.top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.top{justify-content:space-between;margin-bottom:16px}
+    button{border:0;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer;background:var(--green);color:white}.secondary{background:#edf9f0;color:var(--dark)}.danger{background:var(--red)}
+    .product{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px;border:1px solid var(--border);border-radius:12px;background:#f8faf8;margin-bottom:9px}.meta{min-width:0}.meta strong{display:block;overflow-wrap:anywhere}.meta small{color:var(--muted)}
+    .status{padding:9px 12px;border-radius:10px;background:#f0f3f0;color:#344;font-weight:700;margin-bottom:12px}.error{background:#fff0f0;color:#a21c1c}.hidden{display:none!important}
+    @media(max-width:850px){.layout{grid-template-columns:1fr}.wrap{margin:14px auto}.panel{padding:16px}.product{align-items:flex-start;flex-direction:column}}
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <div class="brand">
-        المدينة
-        <small>سوبر ماركت</small>
-      </div>
-
-      <nav class="nav">
-        <a href="index.html">الرئيسية</a>
-        <a href="admin.html">لوحة الإدارة</a>
-      </nav>
-
-      <div class="header-actions">
-        <button class="button secondary" type="button" onclick="location.href='index.html'">العودة للمتجر</button>
-      </div>
+  <main class="wrap">
+    <div class="top">
+      <div><h1>إدارة المنتجات</h1><div>التعديلات تحفظ مباشرة في قاعدة بيانات Supabase.</div></div>
+      <div class="actions"><a href="index.html"><button type="button" class="secondary">العودة للمتجر</button></a><button type="button" id="logout" class="secondary hidden">تسجيل الخروج</button></div>
     </div>
-  </header>
-
-  <main>
-    <section class="section">
-      <div class="container admin-panel">
-        <div class="section-head">
-          <h2>لوحة إدارة المنتجات</h2>
-        </div>
-
-        <div class="admin-layout">
-          <form id="productForm" class="product-form">
-            <input id="productId" type="hidden" />
-
-            <label>
-              اسم المنتج
-              <input id="productName" type="text" placeholder="مثال: لبن طويل الأمد" required />
-            </label>
-
-            <label>
-              السعر (ر.س)
-              <input id="productPrice" type="number" min="0" step="0.01" placeholder="12.50" required />
-            </label>
-
-            <label>
-              المخزون
-              <input id="productStock" type="number" min="0" step="1" placeholder="20" required />
-            </label>
-
-            <label>
-              رمز المنتج
-              <input id="productEmoji" type="text" maxlength="2" placeholder="🥤" />
-            </label>
-
-            <div class="form-actions">
-              <button id="saveProductBtn" class="button" type="submit">حفظ المنتج</button>
-              <button id="cancelEditBtn" class="button secondary" type="button">إلغاء</button>
-            </div>
-          </form>
-
-          <div>
-            <div class="section-head" style="margin-bottom: 12px;">
-              <h2 style="font-size: 1.4rem;">قائمة المنتجات</h2>
-            </div>
-            <div id="adminProductsList" class="admin-products-list"></div>
+    <div id="status" class="status">جارٍ الاتصال...</div>
+    <section id="loginPanel" class="panel hidden">
+      <h2>دخول المدير</h2>
+      <form id="loginForm" class="form">
+        <label>البريد الإلكتروني<input id="email" type="email" autocomplete="username" required dir="ltr"></label>
+        <label>كلمة المرور<input id="password" type="password" autocomplete="current-password" required dir="ltr"></label>
+        <button type="submit">دخول</button>
+      </form>
+    </section>
+    <section id="manager" class="panel hidden">
+      <div class="layout">
+        <form id="productForm" class="form">
+          <h2 id="formTitle">إضافة منتج</h2>
+          <input id="productId" type="hidden">
+          <label>اسم المنتج<input id="name" required maxlength="200"></label>
+          <label>التصنيف<select id="category"></select></label>
+          <label>الوحدة<select id="unit"><option value="قطعة">قطعة</option><option value="علبة">علبة</option><option value="كيس">كيس</option><option value="كرتونة">كرتونة</option><option value="حبة">حبة</option><option value="كيلو">كيلو</option><option value="جرام">جرام</option></select></label>
+          <label>السعر / سعر الوحدة<input id="price" type="number" min="0" step="0.01" required></label>
+          <label>السعر السابق (اختياري)<input id="oldPrice" type="number" min="0" step="0.01"></label>
+          <label>المخزون<input id="stock" type="number" min="0" step="1" required></label>
+          <label class="check"><input id="weighted" type="checkbox"> يُباع بالوزن (أدخل المخزون بالجرام)</label>
+          <div id="weightFields" class="hidden">
+            <label>سعر الكيلو<input id="pricePerKg" type="number" min="0" step="0.01"></label>
+            <label>أقل وزن للطلب (جرام)<input id="minWeight" type="number" min="1" step="1" value="250"></label>
+            <label>خطوة اختيار الوزن (جرام)<input id="weightStep" type="number" min="1" step="1" value="100"></label>
           </div>
+          <label>رمز المنتج (إيموجي)<input id="emoji" maxlength="8" placeholder="📦"></label>
+          <div class="actions"><button id="saveBtn" type="submit">حفظ المنتج</button><button id="cancelBtn" type="button" class="secondary">إلغاء</button></div>
+        </form>
+        <div>
+          <h2>المنتجات</h2>
+          <input id="search" type="search" placeholder="ابحث بالاسم..." aria-label="ابحث بالاسم">
+          <div id="productsList" style="margin-top:12px"></div>
         </div>
       </div>
     </section>
   </main>
+<script>
+(() => {
+  const statusEl = document.getElementById('status');
+  const loginPanel = document.getElementById('loginPanel');
+  const manager = document.getElementById('manager');
+  const form = document.getElementById('productForm');
+  const $ = id => document.getElementById(id);
+  let client = null;
+  let categories = [];
+  let products = [];
 
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div>
-        <strong>السوق المدينة</strong><br />
-        متجر يومي يوفر كل احتياجات العائلة.
-      </div>
-      <div>واتساب: 966500000000+</div>
-      <div>العنوان: المدينة المنورة</div>
-    </div>
-  </footer>
-
-  <script>
-    const STORAGE_KEY = 'md_products';
-    const defaultProducts = [
-      { id: 1, name: 'كوكاكولا 1.25 لتر', price: 8.5, stock: 40, emoji: '🥤' },
-      { id: 2, name: 'مياه معدنية 1.5 لتر', price: 1.5, stock: 200, emoji: '💧' },
-      { id: 3, name: 'عصير برتقال 1 لتر', price: 6, stock: 3, emoji: '🍊' },
-      { id: 4, name: 'أرز بسمتي 5 كيلو', price: 32, stock: 25, emoji: '🍚' },
-      { id: 5, name: 'مكرونة سباغيتي 500 جرام', price: 2.5, stock: 120, emoji: '🍝' },
-      { id: 6, name: 'سكر أبيض 1 كيلو', price: 3.5, stock: 80, emoji: '🍬' },
-      { id: 7, name: 'زيت دوار الشمس 1.8 لتر', price: 18, stock: 0, emoji: '🫒' }
-    ];
-
-    let products = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || defaultProducts;
-
-    const productForm = document.getElementById('productForm');
-    const productIdInput = document.getElementById('productId');
-    const productNameInput = document.getElementById('productName');
-    const productPriceInput = document.getElementById('productPrice');
-    const productStockInput = document.getElementById('productStock');
-    const productEmojiInput = document.getElementById('productEmoji');
-    const adminProductsList = document.getElementById('adminProductsList');
-    const cancelEditBtn = document.getElementById('cancelEditBtn');
-
-    function saveProducts() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+  function setStatus(message, isError = false) {
+    statusEl.textContent = message;
+    statusEl.className = 'status' + (isError ? ' error' : '');
+  }
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  }
+  function clearForm() {
+    form.reset();
+    $('productId').value = '';
+    $('minWeight').value = '250';
+    $('weightStep').value = '100';
+    $('formTitle').textContent = 'إضافة منتج';
+    $('saveBtn').textContent = 'حفظ المنتج';
+    $('weightFields').classList.toggle('hidden', !$('weighted').checked);
+  }
+  async function checkAdmin() {
+    const { data: sessionData, error: sessionError } = await client.auth.getSession();
+    if (sessionError) throw sessionError;
+    if (!sessionData.session) return false;
+    const { data, error } = await client.rpc('is_admin');
+    if (error) throw error;
+    if (data !== true) {
+      await client.auth.signOut();
+      throw new Error('هذا الحساب ليس مديراً. أضف المستخدم إلى جدول admins في Supabase.');
     }
-
-    function resetForm() {
-      productForm.reset();
-      productIdInput.value = '';
-      document.getElementById('saveProductBtn').textContent = 'حفظ المنتج';
+    return true;
+  }
+  async function loadCategories() {
+    const { data, error } = await client.from('categories').select('id,name_ar,active,sort').order('sort').order('id');
+    if (error) throw error;
+    categories = data || [];
+    $('category').innerHTML = '<option value="">بدون تصنيف</option>' + categories.map(c => `<option value="${c.id}">${escapeHtml(c.name_ar)}${c.active ? '' : ' (مخفي)'}</option>`).join('');
+  }
+  async function loadProducts() {
+    const { data, error } = await client.from('products').select('id,sku,name_ar,price,old_price,stock,unit,category_id,active,is_weighted,price_per_kg,min_weight_grams,weight_step_grams,image_url').order('id', {ascending:false}).limit(2000);
+    if (error) throw error;
+    products = data || [];
+    renderProducts();
+  }
+  function renderProducts() {
+    const q = $('search').value.trim().toLocaleLowerCase();
+    const filtered = products.filter(p => !q || (p.name_ar || '').toLocaleLowerCase().includes(q));
+    $('productsList').innerHTML = filtered.length ? filtered.map(p => {
+      const cat = categories.find(c => Number(c.id) === Number(p.category_id));
+      const details = [cat?.name_ar || 'بدون تصنيف', p.unit || 'قطعة', p.is_weighted ? `بالوزن · ${Number(p.price_per_kg ?? p.price).toFixed(2)} / كجم` : `السعر ${Number(p.price).toFixed(2)}`, `المخزون ${p.stock}${p.is_weighted ? ' جرام' : ''}`, p.active ? 'ظاهر' : 'مخفي'].join(' · ');
+      return `<article class="product"><div class="meta"><strong>${escapeHtml(p.name_ar)}</strong><small>${escapeHtml(details)}</small></div><div class="actions"><button type="button" class="secondary" data-edit="${p.id}">تعديل</button><button type="button" class="danger" data-delete="${p.id}">حذف</button></div></article>`;
+    }).join('') : '<p>لا توجد منتجات مطابقة.</p>';
+  }
+  function editProduct(id) {
+    const p = products.find(item => Number(item.id) === Number(id));
+    if (!p) return;
+    $('productId').value = p.id;
+    $('name').value = p.name_ar || '';
+    $('category').value = p.category_id == null ? '' : String(p.category_id);
+    $('unit').value = p.unit || 'قطعة';
+    $('price').value = p.price ?? 0;
+    $('oldPrice').value = p.old_price ?? '';
+    $('stock').value = p.stock ?? 0;
+    $('weighted').checked = !!p.is_weighted;
+    $('pricePerKg').value = p.price_per_kg ?? p.price ?? 0;
+    $('minWeight').value = p.min_weight_grams ?? 250;
+    $('weightStep').value = p.weight_step_grams ?? 100;
+    $('formTitle').textContent = 'تعديل المنتج';
+    $('saveBtn').textContent = 'حفظ التعديلات';
+    $('weightFields').classList.toggle('hidden', !p.is_weighted);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  async function saveProduct(event) {
+    event.preventDefault();
+    const name = $('name').value.trim();
+    const price = Number($('price').value);
+    const stock = Number($('stock').value);
+    const weighted = $('weighted').checked;
+    const pricePerKg = Number($('pricePerKg').value || price);
+    const minWeight = Number($('minWeight').value || 250);
+    const weightStep = Number($('weightStep').value || 100);
+    if (!name || !Number.isFinite(price) || price < 0 || !Number.isInteger(stock) || stock < 0) {
+      setStatus('تحقق من الاسم والسعر والمخزون.', true); return;
     }
-
-    function renderAdminProducts() {
-      if (!adminProductsList) return;
-
-      if (!products.length) {
-        adminProductsList.innerHTML = '<div class="empty-state" style="padding:20px; color:#587062; background:#f8faf8; border:1px solid var(--border); border-radius:14px;">لا توجد منتجات حتى الآن.</div>';
+    if (weighted && (!Number.isFinite(pricePerKg) || pricePerKg < 0 || minWeight < 1 || weightStep < 1)) {
+      setStatus('تحقق من سعر الكيلو والحد الأدنى وخطوة الوزن.', true); return;
+    }
+    const row = {
+      name_ar: name,
+      category_id: $('category').value ? Number($('category').value) : null,
+      unit: $('unit').value,
+      price: weighted ? pricePerKg : price,
+      old_price: $('oldPrice').value === '' ? null : Number($('oldPrice').value),
+      stock,
+      is_weighted: weighted,
+      price_per_kg: weighted ? pricePerKg : null,
+      min_weight_grams: weighted ? minWeight : 250,
+      weight_step_grams: weighted ? weightStep : 100,
+      active: true
+    };
+    const id = $('productId').value;
+    setStatus('جارٍ حفظ المنتج...');
+    const result = id
+      ? await client.from('products').update(row).eq('id', Number(id)).select('id').single()
+      : await client.from('products').insert(row).select('id').single();
+    if (result.error) {
+      setStatus('فشل حفظ المنتج: ' + result.error.message + ' — إذا أضفت أعمدة الوزن للتو، أعد تحميل مخطط قاعدة البيانات في Supabase.', true);
+      return;
+    }
+    clearForm();
+    await loadProducts();
+    setStatus('تم حفظ المنتج في Supabase.');
+  }
+  async function deleteProduct(id) {
+    const p = products.find(item => Number(item.id) === Number(id));
+    if (!p || !confirm(`حذف «${p.name_ar}»؟`)) return;
+    setStatus('جارٍ حذف المنتج...');
+    const { error } = await client.from('products').delete().eq('id', Number(id));
+    if (error) {
+      // Products referenced by past orders cannot be physically removed; archive instead.
+      const archive = await client.from('products').update({active:false}).eq('id', Number(id));
+      if (archive.error) {
+        setStatus('تعذر حذف أو إخفاء المنتج: ' + archive.error.message, true);
         return;
       }
-
-      adminProductsList.innerHTML = products.map(product => `
-        <div class="admin-product-row">
-          <div class="admin-product-info">
-            <div class="admin-product-emoji">${product.emoji || '🛒'}</div>
-            <div class="admin-product-meta">
-              <strong>${product.name}</strong>
-              <span>${Number(product.price).toFixed(2)} ر.س • المخزون: ${product.stock}</span>
-            </div>
-          </div>
-          <div class="admin-product-actions">
-            <button class="button secondary" type="button" data-edit-id="${product.id}">تعديل الاسم</button>
-            <button class="button danger" type="button" data-delete-id="${product.id}">حذف</button>
-          </div>
-        </div>
-      `).join('');
+      setStatus('المنتج مرتبط بطلبات سابقة، لذلك أُخفي بدلاً من حذفه.');
+    } else {
+      setStatus('تم حذف المنتج.');
     }
-
-    function openEditProduct(productId) {
-      const product = products.find(item => Number(item.id) === Number(productId));
-      if (!product) return;
-
-      productIdInput.value = product.id;
-      productNameInput.value = product.name;
-      productPriceInput.value = product.price;
-      productStockInput.value = product.stock;
-      productEmojiInput.value = product.emoji || '';
-      document.getElementById('saveProductBtn').textContent = 'تحديث المنتج';
-      productNameInput.focus();
+    await loadProducts();
+  }
+  async function initialize() {
+    if (!window.MD?.SUPABASE_URL || !window.MD?.SUPABASE_ANON_KEY || !window.supabase) {
+      setStatus('تعذر الاتصال: تحقق من config.js ومكتبة Supabase.', true);
+      loginPanel.classList.remove('hidden');
+      return;
     }
-
-    productForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      const id = productIdInput.value ? Number(productIdInput.value) : Date.now();
-      const name = productNameInput.value.trim();
-      const price = Number(productPriceInput.value);
-      const stock = Number(productStockInput.value);
-      const emoji = productEmojiInput.value.trim() || '🛒';
-
-      if (!name) {
-        alert('يرجى إدخال اسم المنتج');
+    client = window.supabase.createClient(window.MD.SUPABASE_URL, window.MD.SUPABASE_ANON_KEY);
+    try {
+      const isAdmin = await checkAdmin();
+      if (!isAdmin) {
+        loginPanel.classList.remove('hidden');
+        setStatus('سجل الدخول بحساب مدير Supabase.');
         return;
       }
+      await showManager();
+    } catch (error) {
+      loginPanel.classList.remove('hidden');
+      setStatus(error.message || 'تعذر التحقق من صلاحية الإدارة.', true);
+    }
+  }
+  async function showManager() {
+    await loadCategories();
+    await loadProducts();
+    loginPanel.classList.add('hidden');
+    manager.classList.remove('hidden');
+    $('logout').classList.remove('hidden');
+    setStatus(`متصل بـ Supabase · ${products.length} منتج`);
+  }
 
-      const existingIndex = products.findIndex(item => Number(item.id) === Number(id));
-
-      if (existingIndex >= 0) {
-        products[existingIndex] = { ...products[existingIndex], name, price, stock, emoji };
-      } else {
-        products.push({ id, name, price, stock, emoji });
-      }
-
-      saveProducts();
-      renderAdminProducts();
-      resetForm();
-    });
-
-    cancelEditBtn.addEventListener('click', resetForm);
-
-    document.addEventListener('click', (event) => {
-      const editButton = event.target.closest('[data-edit-id]');
-      if (editButton) {
-        openEditProduct(editButton.dataset.editId);
-        return;
-      }
-
-      const deleteButton = event.target.closest('[data-delete-id]');
-      if (deleteButton) {
-        const productId = Number(deleteButton.dataset.deleteId);
-        const product = products.find(item => Number(item.id) === productId);
-
-        if (!product) return;
-
-        const confirmed = window.confirm(`هل تريد حذف المنتج: ${product.name}?`);
-        if (!confirmed) return;
-
-        products = products.filter(item => Number(item.id) !== productId);
-        saveProducts();
-        renderAdminProducts();
-        resetForm();
-      }
-    });
-
-    renderAdminProducts();
-  </script>
+  $('loginForm').addEventListener('submit', async event => {
+    event.preventDefault();
+    setStatus('جارٍ تسجيل الدخول...');
+    const { error } = await client.auth.signInWithPassword({email:$('email').value.trim(), password:$('password').value});
+    if (error) { setStatus('فشل تسجيل الدخول: ' + error.message, true); return; }
+    try {
+      if (!await checkAdmin()) { setStatus('هذا الحساب ليس مديراً.', true); return; }
+      await showManager();
+    } catch (error) { setStatus(error.message || 'تعذر فتح الإدارة.', true); }
+  });
+  $('logout').addEventListener('click', async () => {
+    await client.auth.signOut();
+    manager.classList.add('hidden');
+    $('logout').classList.add('hidden');
+    loginPanel.classList.remove('hidden');
+    setStatus('تم تسجيل الخروج.');
+  });
+  $('weighted').addEventListener('change', () => $('weightFields').classList.toggle('hidden', !$('weighted').checked));
+  $('search').addEventListener('input', renderProducts);
+  $('cancelBtn').addEventListener('click', () => { clearForm(); setStatus(`متصل بـ Supabase · ${products.length} منتج`); });
+  form.addEventListener('submit', saveProduct);
+  $('productsList').addEventListener('click', event => {
+    const edit = event.target.closest('[data-edit]');
+    const del = event.target.closest('[data-delete]');
+    if (edit) editProduct(edit.dataset.edit);
+    if (del) deleteProduct(del.dataset.delete).catch(error => setStatus(error.message, true));
+  });
+  initialize();
+})();
+</script>
 </body>
 </html>
