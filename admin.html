@@ -119,100 +119,6 @@
       border: 1px solid rgba(225, 75, 75, 0.2);
     }
 
-    .hero {
-      padding: 28px 0 16px;
-    }
-
-    .hero-wrap {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 24px;
-      align-items: center;
-      background: linear-gradient(135deg, #edf9f0, #fdfdfd);
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      padding: 32px;
-      box-shadow: var(--shadow);
-    }
-
-    .eyebrow {
-      display: inline-block;
-      background: #eaf7ee;
-      color: var(--green-dark);
-      border: 1px solid rgba(22, 128, 60, 0.15);
-      border-radius: 999px;
-      padding: 7px 12px;
-      font-size: 14px;
-      font-weight: 800;
-      margin-bottom: 14px;
-    }
-
-    h1 {
-      font-size: clamp(2.1rem, 3vw, 3.2rem);
-      line-height: 1.25;
-      margin: 0 0 12px;
-      color: var(--green-dark);
-    }
-
-    .hero p {
-      margin: 0 0 24px;
-      color: var(--muted);
-      font-size: 1.08rem;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
-    }
-
-    .stats {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .stats strong { color: var(--text); display: block; font-size: 1.4rem; }
-
-    .hero-card {
-      background: linear-gradient(180deg, #ffffff, #f0fbf3);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .mini-box {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 16px;
-      margin-bottom: 14px;
-    }
-
-    .mini-box:last-child { margin-bottom: 0; }
-
-    .mini-box h3 {
-      margin: 0 0 8px;
-      color: var(--green-dark);
-      font-size: 1.05rem;
-    }
-
-    .mini-box .price {
-      font-size: 1.8rem;
-      color: var(--text);
-      font-weight: 900;
-    }
-
-    .mini-box .old {
-      color: var(--muted);
-      text-decoration: line-through;
-      margin-right: 8px;
-    }
-
     .section {
       padding: 26px 0;
     }
@@ -232,112 +138,6 @@
       color: var(--green-dark);
     }
 
-    .chips {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .chip {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 10px 14px;
-      color: var(--muted);
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .chip.active {
-      background: var(--green-dark);
-      border-color: var(--green-dark);
-      color: white;
-    }
-
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .product-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .product-image {
-      height: 180px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #f0f8f1, #f8faf8);
-      font-size: 3.2rem;
-    }
-
-    .product-body {
-      padding: 16px;
-    }
-
-    .product-name {
-      margin: 0 0 8px;
-      font-size: 1.05rem;
-      color: var(--text);
-      min-height: 48px;
-    }
-
-    .product-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      padding: 5px 9px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
-      background: #edf7ee;
-      color: var(--green-dark);
-    }
-
-    .price {
-      font-size: 1.4rem;
-      font-weight: 900;
-      color: var(--green-dark);
-    }
-
-    .product-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .stock {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .cart-summary {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 20px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: #fff;
-      margin-top: 18px;
-    }
-
     .admin-panel {
       background: #fff;
       border: 1px solid var(--border);
@@ -348,7 +148,7 @@
 
     .admin-layout {
       display: grid;
-      grid-template-columns: 360px 1fr;
+      grid-template-columns: 420px 1fr;
       gap: 20px;
     }
 
@@ -368,7 +168,8 @@
       color: var(--muted);
     }
 
-    .product-form input {
+    .product-form input,
+    .product-form select {
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 12px 14px;
@@ -376,6 +177,23 @@
       font-family: inherit;
       color: var(--text);
       background: #fff;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .checkbox-row input {
+      width: 18px;
+      height: 18px;
     }
 
     .form-actions {
@@ -421,6 +239,8 @@
 
     .admin-product-meta {
       min-width: 0;
+      display: grid;
+      gap: 4px;
     }
 
     .admin-product-meta strong {
@@ -433,6 +253,7 @@
     .admin-product-meta span {
       color: var(--muted);
       font-size: 0.85rem;
+      line-height: 1.5;
     }
 
     .admin-product-actions {
@@ -457,11 +278,9 @@
     }
 
     @media (max-width: 840px) {
-      .hero-wrap { grid-template-columns: 1fr; }
       .topbar-inner { flex-direction: column; align-items: stretch; }
       .nav { justify-content: center; }
       .header-actions { justify-content: center; }
-      .search-box { min-width: 0; width: 100%; }
       .admin-layout { grid-template-columns: 1fr; }
       .admin-product-row { flex-direction: column; align-items: stretch; }
       .admin-product-actions { justify-content: flex-start; }
@@ -514,8 +333,53 @@
             </label>
 
             <label>
+              التصنيف
+              <select id="productCategory">
+                <option value="مواد غذائية">مواد غذائية</option>
+                <option value="مشروبات">مشروبات</option>
+                <option value="ألبان">ألبان</option>
+                <option value="منظفات">منظفات</option>
+                <option value="عناية شخصية">عناية شخصية</option>
+                <option value="مجمدات">مجمدات</option>
+                <option value="معلبات">معلبات</option>
+                <option value="مخبوزات">مخبوزات</option>
+              </select>
+            </label>
+
+            <label>
+              الوحدة
+              <select id="productUnit">
+                <option value="قطعة">قطعة</option>
+                <option value="علبة">علبة</option>
+                <option value="كيس">كيس</option>
+                <option value="كيلو">كيلو</option>
+                <option value="جرام">جرام</option>
+              </select>
+            </label>
+
+            <label>
+              سعر الكيلو (ر.س)
+              <input id="productPricePerKg" type="number" min="0" step="0.01" placeholder="8.50" />
+            </label>
+
+            <label>
+              الحد الأدنى للوزن (جرام)
+              <input id="productMinWeight" type="number" min="50" step="50" value="250" />
+            </label>
+
+            <label>
+              خطوة الزيادة (جرام)
+              <input id="productWeightStep" type="number" min="50" step="50" value="100" />
+            </label>
+
+            <label>
               رمز المنتج
               <input id="productEmoji" type="text" maxlength="2" placeholder="🥤" />
+            </label>
+
+            <label class="checkbox-row">
+              <input id="productIsWeighted" type="checkbox" />
+              <span>يُباع بالوزن (كيلو / جرام)</span>
             </label>
 
             <div class="form-actions">
@@ -548,17 +412,57 @@
 
   <script>
     const STORAGE_KEY = 'md_products';
+
+    function normalizeProduct(product) {
+      if (!product || typeof product !== 'object') return null;
+
+      const safeId = Number(product.id ?? Date.now() + Math.random());
+      const safeName = product.name || product.name_ar || 'منتج جديد';
+      const safeCategory = product.category || product.cat || 'منتجات أخرى';
+      const safeUnit = product.unit || 'قطعة';
+      const safePrice = Number(product.price ?? product.base_price ?? 0);
+      const safeOld = Number(product.old ?? product.old_price ?? 0);
+      const safeStock = Number(product.stock ?? 0);
+      const safeEmoji = product.emoji || product.ic || '🛒';
+      const safeIsWeighted = !!(product.isWeighted || product.weighted || product.is_weighted || ['كيلو', 'جرام'].includes((safeUnit || '').trim()));
+      const safePricePerKg = Number(product.pricePerKg ?? product.price_per_kg ?? safePrice);
+      const safeMinWeight = Number(product.minWeight ?? product.min_weight ?? 250);
+      const safeWeightStep = Number(product.weightStep ?? product.weight_step ?? 100);
+
+      return {
+        id: safeId,
+        name: safeName,
+        category: safeCategory,
+        cat: safeCategory,
+        price: safePrice,
+        old: safeOld,
+        old_price: safeOld,
+        stock: safeStock,
+        emoji: safeEmoji,
+        ic: safeEmoji,
+        unit: safeUnit,
+        isWeighted: safeIsWeighted,
+        weightStep: safeWeightStep,
+        minWeight: safeMinWeight,
+        pricePerKg: safePricePerKg,
+        isNew: !!product.isNew,
+        hidden: !!product.hidden,
+        min: Number(product.min ?? product.min_stock ?? 5)
+      };
+    }
+
     const defaultProducts = [
-      { id: 1, name: 'كوكاكولا 1.25 لتر', price: 8.5, stock: 40, emoji: '🥤' },
-      { id: 2, name: 'مياه معدنية 1.5 لتر', price: 1.5, stock: 200, emoji: '💧' },
-      { id: 3, name: 'عصير برتقال 1 لتر', price: 6, stock: 3, emoji: '🍊' },
-      { id: 4, name: 'أرز بسمتي 5 كيلو', price: 32, stock: 25, emoji: '🍚' },
-      { id: 5, name: 'مكرونة سباغيتي 500 جرام', price: 2.5, stock: 120, emoji: '🍝' },
-      { id: 6, name: 'سكر أبيض 1 كيلو', price: 3.5, stock: 80, emoji: '🍬' },
-      { id: 7, name: 'زيت دوار الشمس 1.8 لتر', price: 18, stock: 0, emoji: '🫒' }
+      { id: 1, name: 'كوكاكولا 1.25 لتر', category: 'مشروبات', price: 8.5, stock: 40, emoji: '🥤', unit: 'علبة', isWeighted: false },
+      { id: 2, name: 'مياه معدنية 1.5 لتر', category: 'مشروبات', price: 1.5, stock: 200, emoji: '💧', unit: 'علبة', isWeighted: false },
+      { id: 3, name: 'عصير برتقال 1 لتر', category: 'مشروبات', price: 6, stock: 3, emoji: '🧃', unit: 'علبة', isWeighted: false },
+      { id: 4, name: 'أرز بسمتي 5 كيلو', category: 'مواد غذائية', price: 32, stock: 25, emoji: '🍚', unit: 'كيس', isWeighted: false },
+      { id: 5, name: 'مكرونة سباغيتي 500 جرام', category: 'مواد غذائية', price: 2.5, stock: 120, emoji: '🍝', unit: 'علبة', isWeighted: false },
+      { id: 6, name: 'سكر أبيض 1 كيلو', category: 'مواد غذائية', price: 3.5, stock: 80, emoji: '🍬', unit: 'كيلو', isWeighted: true, pricePerKg: 3.5, minWeight: 250, weightStep: 100 },
+      { id: 7, name: 'زيت دوار الشمس 1.8 لتر', category: 'مواد غذائية', price: 18, stock: 0, emoji: '🫒', unit: 'علبة', isWeighted: false }
     ];
 
     let products = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || defaultProducts;
+    products = (Array.isArray(products) ? products : []).map(normalizeProduct).filter(Boolean);
 
     const productForm = document.getElementById('productForm');
     const productIdInput = document.getElementById('productId');
@@ -566,16 +470,28 @@
     const productPriceInput = document.getElementById('productPrice');
     const productStockInput = document.getElementById('productStock');
     const productEmojiInput = document.getElementById('productEmoji');
+    const productCategoryInput = document.getElementById('productCategory');
+    const productUnitInput = document.getElementById('productUnit');
+    const productPricePerKgInput = document.getElementById('productPricePerKg');
+    const productMinWeightInput = document.getElementById('productMinWeight');
+    const productWeightStepInput = document.getElementById('productWeightStep');
+    const productIsWeightedInput = document.getElementById('productIsWeighted');
     const adminProductsList = document.getElementById('adminProductsList');
     const cancelEditBtn = document.getElementById('cancelEditBtn');
 
     function saveProducts() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(products.map(normalizeProduct).filter(Boolean)));
     }
 
     function resetForm() {
       productForm.reset();
       productIdInput.value = '';
+      productCategoryInput.value = 'مواد غذائية';
+      productUnitInput.value = 'قطعة';
+      productPricePerKgInput.value = '';
+      productMinWeightInput.value = '250';
+      productWeightStepInput.value = '100';
+      productIsWeightedInput.checked = false;
       document.getElementById('saveProductBtn').textContent = 'حفظ المنتج';
     }
 
@@ -583,36 +499,50 @@
       if (!adminProductsList) return;
 
       if (!products.length) {
-        adminProductsList.innerHTML = '<div class="empty-state" style="padding:20px; color:#587062; background:#f8faf8; border:1px solid var(--border); border-radius:14px;">لا توجد منتجات حتى الآن.</div>';
+        adminProductsList.innerHTML = '<div class="empty-state" style="padding:20px; color:#587062; background:#f8faf8; border:1px solid var(--border); border-radius:14px;">لا توجد منتجات.</div>';
         return;
       }
 
-      adminProductsList.innerHTML = products.map(product => `
-        <div class="admin-product-row">
-          <div class="admin-product-info">
-            <div class="admin-product-emoji">${product.emoji || '🛒'}</div>
-            <div class="admin-product-meta">
-              <strong>${product.name}</strong>
-              <span>${Number(product.price).toFixed(2)} ر.س • المخزون: ${product.stock}</span>
+      adminProductsList.innerHTML = products.map(product => {
+        const item = normalizeProduct(product);
+        const category = item.category || 'منتجات أخرى';
+        const unit = item.unit || 'قطعة';
+        const typeText = item.isWeighted ? 'يُباع بالوزن' : 'قطعة / علبة';
+
+        return `
+          <div class="admin-product-row">
+            <div class="admin-product-info">
+              <div class="admin-product-emoji">${item.emoji || '🛒'}</div>
+              <div class="admin-product-meta">
+                <strong>${item.name}</strong>
+                <span>${Number(item.price).toFixed(2)} ر.س • ${category} • ${unit} • ${typeText}</span>
+              </div>
+            </div>
+            <div class="admin-product-actions">
+              <button class="button secondary" type="button" data-edit-id="${item.id}">تعديل</button>
+              <button class="button danger" type="button" data-delete-id="${item.id}">حذف</button>
             </div>
           </div>
-          <div class="admin-product-actions">
-            <button class="button secondary" type="button" data-edit-id="${product.id}">تعديل الاسم</button>
-            <button class="button danger" type="button" data-delete-id="${product.id}">حذف</button>
-          </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function openEditProduct(productId) {
       const product = products.find(item => Number(item.id) === Number(productId));
       if (!product) return;
 
-      productIdInput.value = product.id;
-      productNameInput.value = product.name;
-      productPriceInput.value = product.price;
-      productStockInput.value = product.stock;
-      productEmojiInput.value = product.emoji || '';
+      const item = normalizeProduct(product);
+      productIdInput.value = item.id;
+      productNameInput.value = item.name;
+      productPriceInput.value = item.price;
+      productStockInput.value = item.stock;
+      productEmojiInput.value = item.emoji || '';
+      productCategoryInput.value = item.category || 'مواد غذائية';
+      productUnitInput.value = item.unit || 'قطعة';
+      productIsWeightedInput.checked = !!item.isWeighted;
+      productPricePerKgInput.value = item.pricePerKg || item.price;
+      productMinWeightInput.value = item.minWeight || 250;
+      productWeightStepInput.value = item.weightStep || 100;
       document.getElementById('saveProductBtn').textContent = 'تحديث المنتج';
       productNameInput.focus();
     }
@@ -625,6 +555,12 @@
       const price = Number(productPriceInput.value);
       const stock = Number(productStockInput.value);
       const emoji = productEmojiInput.value.trim() || '🛒';
+      const category = productCategoryInput.value || 'منتجات أخرى';
+      const unit = productUnitInput.value || 'قطعة';
+      const isWeighted = productIsWeightedInput.checked;
+      const pricePerKg = Number(productPricePerKgInput.value || price || 0);
+      const minWeight = Number(productMinWeightInput.value || 250);
+      const weightStep = Number(productWeightStepInput.value || 100);
 
       if (!name) {
         alert('يرجى إدخال اسم المنتج');
@@ -632,11 +568,31 @@
       }
 
       const existingIndex = products.findIndex(item => Number(item.id) === Number(id));
+      const productData = {
+        id,
+        name,
+        category,
+        cat: category,
+        price,
+        old: 0,
+        old_price: 0,
+        stock,
+        emoji,
+        ic: emoji,
+        unit,
+        isWeighted,
+        pricePerKg,
+        minWeight,
+        weightStep,
+        isNew: false,
+        hidden: false,
+        min: 5
+      };
 
       if (existingIndex >= 0) {
-        products[existingIndex] = { ...products[existingIndex], name, price, stock, emoji };
+        products[existingIndex] = normalizeProduct(productData);
       } else {
-        products.push({ id, name, price, stock, emoji });
+        products.push(normalizeProduct(productData));
       }
 
       saveProducts();
@@ -670,6 +626,7 @@
       }
     });
 
+    resetForm();
     renderAdminProducts();
   </script>
 </body>
